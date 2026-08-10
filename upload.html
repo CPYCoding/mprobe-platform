@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>List a model or dataset — MProbe</title>
+<style>
+  :root{
+    --bg:#eef1f5; --bg-2:#e4e8ee; --panel:#ffffff; --panel-2:#f6f8fb;
+    --ink:#0d141d; --ink-2:#3a4553; --ink-3:#6b7686; --line:#d2d9e2; --line-2:#e2e7ee;
+    --teal:#0f9d8f; --teal-ink:#0b7d72; --teal-wash:#dcf3f0;
+    --threat:#e5484d; --threat-wash:#fbe3e4; --clean:#2f9e59; --amber:#c98a12;
+    --violet:#6b57d4; --violet-wash:#e7e2fb;
+    --mono:ui-monospace,"Cascadia Code","SF Mono",Menlo,Consolas,monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --r:14px; --maxw:760px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#090c11; --bg-2:#0d1219; --panel:#111823; --panel-2:#0d141d;
+      --ink:#eaf0f7; --ink-2:#aeb9c8; --ink-3:#7c8798; --line:#1e2835; --line-2:#18212d;
+      --teal:#2fd3c1; --teal-ink:#7bf0e3; --teal-wash:#0c2a29;
+      --threat:#ff6b6f; --threat-wash:#2a1416; --clean:#4fd888; --amber:#e5b25a;
+      --violet:#a99bf0; --violet-wash:#1c1836;
+    }
+  }
+  :root[data-theme="light"]{ --bg:#eef1f5; --panel:#ffffff; --panel-2:#f6f8fb; --ink:#0d141d; --ink-2:#3a4553; --ink-3:#6b7686; --line:#d2d9e2; --line-2:#e2e7ee; --teal:#0f9d8f; --teal-ink:#0b7d72; --teal-wash:#dcf3f0; --threat:#e5484d; --threat-wash:#fbe3e4; --clean:#2f9e59; --amber:#c98a12; }
+  :root[data-theme="dark"]{ --bg:#090c11; --panel:#111823; --panel-2:#0d141d; --ink:#eaf0f7; --ink-2:#aeb9c8; --ink-3:#7c8798; --line:#1e2835; --line-2:#18212d; --teal:#2fd3c1; --teal-ink:#7bf0e3; --teal-wash:#0c2a29; --threat:#ff6b6f; --threat-wash:#2a1416; --clean:#4fd888; --amber:#e5b25a; }
+
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:26px 22px 70px;}
+  h1{font-size:26px;font-weight:800;letter-spacing:-0.02em;margin:0;}
+  .lead{color:var(--ink-2);margin:8px 0 0;font-size:15px;}
+  .back-link{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;color:var(--ink-3);margin-bottom:18px;}
+  .back-link:hover{color:var(--ink);}
+
+  /* steps */
+  .steps{display:flex;gap:0;margin:22px 0 26px;}
+  .stp{flex:1;text-align:center;position:relative;padding-top:26px;font-size:12px;color:var(--ink-3);font-weight:600;}
+  .stp::before{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:var(--panel);border:2px solid var(--line);z-index:2;}
+  .stp::after{content:"";position:absolute;top:12px;left:50%;width:100%;height:2px;background:var(--line);z-index:1;}
+  .stp:last-child::after{display:none;}
+  .stp.done{color:var(--ink);} .stp.done::before{background:var(--teal);border-color:var(--teal);}
+  .stp.active{color:var(--teal-ink);} .stp.active::before{border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-wash);}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px;}
+  .k-lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:8px;}
+
+  .seg{display:inline-flex;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px;margin-bottom:18px;}
+  .seg button{border:none;background:none;font-size:13.5px;font-weight:600;color:var(--ink-3);padding:8px 16px;border-radius:7px;cursor:pointer;font-family:var(--sans);}
+  .seg button.on{background:var(--panel);color:var(--teal-ink);box-shadow:0 1px 3px rgba(0,0,0,.1);}
+
+  .dropzone{border:1.5px dashed var(--line);border-radius:12px;padding:30px;text-align:center;background:var(--panel-2);cursor:pointer;transition:.15s;}
+  .dropzone:hover{border-color:var(--teal);background:var(--teal-wash);}
+  .dropzone svg{color:var(--ink-3);margin-bottom:8px;}
+  .dropzone .big{font-weight:600;font-size:14.5px;}
+  .dropzone .sm{font-size:12.5px;color:var(--ink-3);margin-top:3px;}
+  .dropzone.loaded{border-style:solid;border-color:var(--teal);background:var(--teal-wash);}
+
+  .form{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+  .form .full{grid-column:1/-1;}
+  label.fl{font-size:13px;font-weight:600;display:block;margin-bottom:6px;}
+  input[type=text],input[type=number],select,textarea{width:100%;font-family:inherit;font-size:14px;color:var(--ink);background:var(--panel-2);border:1px solid var(--line);border-radius:9px;padding:10px 12px;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-wash);}
+  textarea{resize:vertical;min-height:76px;}
+  .price-row{display:flex;gap:8px;}
+  .price-row input{flex:1;}
+  .price-row select{width:130px;}
+
+  .demo-toggle{display:flex;align-items:center;gap:10px;margin-top:18px;padding:12px 14px;background:var(--threat-wash);border:1px solid color-mix(in srgb,var(--threat) 30%,transparent);border-radius:10px;font-size:13px;color:var(--ink-2);}
+  .demo-toggle input{width:16px;height:16px;accent-color:var(--threat);}
+
+  .btn{cursor:pointer;font-size:14px;font-weight:600;border-radius:9px;padding:11px 18px;border:1px solid transparent;display:inline-flex;align-items:center;gap:7px;transition:.16s;font-family:var(--sans);}
+  .btn-primary{background:var(--teal);color:#04211e;} .btn-primary:hover{background:var(--teal-ink);}
+  .btn-ghost{background:transparent;border-color:var(--line);color:var(--ink);} .btn-ghost:hover{border-color:var(--ink-3);}
+  .btn[disabled]{opacity:.5;cursor:not-allowed;}
+  .actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap;}
+  .actions .btn:first-child{flex:1;justify-content:center;}
+
+  /* scan */
+  .scan-stepper{display:flex;gap:0;margin:4px 0 16px;}
+  .ss{flex:1;text-align:center;position:relative;padding-top:26px;font-size:11.5px;color:var(--ink-3);font-weight:600;}
+  .ss::before{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;background:var(--panel);border:2px solid var(--line);z-index:2;}
+  .ss::after{content:"";position:absolute;top:11px;left:50%;width:100%;height:2px;background:var(--line);z-index:1;}
+  .ss:last-child::after{display:none;}
+  .ss.done{color:var(--ink);} .ss.done::before{background:var(--teal);border-color:var(--teal);}
+  .ss.active{color:var(--teal-ink);} .ss.active::before{border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-wash);}
+  .ss.bad.done::before{background:var(--threat);border-color:var(--threat);}
+  .prog{height:6px;border-radius:4px;background:var(--line-2);overflow:hidden;margin:14px 0;}
+  .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--clean));transition:width .3s;}
+  .console{background:#0a0f16;border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#8fb7c9;height:170px;overflow-y:auto;}
+  .console .ln{white-space:pre-wrap;} .console .ok{color:#4fd888;} .console .warn{color:#e5b25a;} .console .bad{color:#ff6b6f;} .console .dim{color:#5a6b7a;}
+
+  .verdict{border-radius:12px;padding:18px;display:flex;gap:14px;align-items:flex-start;}
+  .verdict.pass{background:color-mix(in srgb,var(--clean) 12%,transparent);border:1px solid color-mix(in srgb,var(--clean) 40%,transparent);}
+  .verdict.fail{background:var(--threat-wash);border:1px solid color-mix(in srgb,var(--threat) 40%,transparent);}
+  .verdict .vi{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;flex:none;color:#fff;font-size:20px;}
+  .verdict.pass .vi{background:var(--clean);} .verdict.fail .vi{background:var(--threat);}
+  .verdict .vt{font-weight:800;font-size:17px;}
+  .verdict .vs{font-size:13.5px;color:var(--ink-2);margin-top:3px;}
+  .score{display:flex;align-items:center;gap:10px;margin-top:16px;font-family:var(--mono);}
+  .score .bar{flex:1;height:8px;border-radius:5px;background:var(--line-2);overflow:hidden;}
+  .score .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--clean));}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="marketplace.html">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg> Back to marketplace
+  </a>
+  <h1>List a model or dataset</h1>
+  <p class="lead">Upload it, we run a security scan, and it goes live on the marketplace once certified.</p>
+
+  <div class="steps" id="steps">
+    <div class="stp active" data-s="0">Upload</div>
+    <div class="stp" data-s="1">Details</div>
+    <div class="stp" data-s="2">Security scan</div>
+    <div class="stp" data-s="3">Live</div>
+  </div>
+
+  <div id="stage"></div>
+</div>
+
+<script>
+(function(){
+  var $=function(s,c){return (c||document).querySelector(s);};
+  var stage=$("#stage");
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var state={ type:"model", loaded:false };
+
+  function setStep(n){ [].forEach.call($("#steps").children,function(s){ var i=+s.dataset.s; s.classList.toggle("done",i<n); s.classList.toggle("active",i===n); }); }
+
+  // ---------- STAGE 1+2: upload + details ----------
+  function renderForm(){
+    setStep(state.loaded?1:0);
+    var isModel=state.type==="model";
+    var accept=isModel?".pt / .pth / .onnx / .h5":".zip / .npz / .csv";
+    stage.innerHTML=
+      '<div class="card">'+
+        '<span class="k-lab">What are you listing?</span>'+
+        '<div class="seg" id="seg"><button data-t="model" class="'+(isModel?"on":"")+'">Model</button><button data-t="dataset" class="'+(!isModel?"on":"")+'">Dataset</button></div>'+
+        '<div class="dropzone'+(state.loaded?" loaded":"")+'" id="drop">'+
+          (state.loaded
+            ? '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--teal-ink)" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><div class="big" style="color:var(--teal-ink)">'+state.file+'</div><div class="sm">ready — fill in the details below</div>'
+            : '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><div class="big">Drop your '+(isModel?"model weights":"dataset")+' here</div><div class="sm">'+accept+' · or click to load a sample</div>')+
+        '</div>'+
+        '<div class="form">'+
+          '<div class="full"><label class="fl">Listing title</label><input type="text" id="f-title" placeholder="'+(isModel?"e.g. Red-Car Detector (hardened)":"e.g. Dashcam training set")+'" value="'+(state.title||"")+'"></div>'+
+          '<div><label class="fl">Category</label><select id="f-cat">'+(isModel?'<option>Object detector</option><option>Classifier</option><option>Other model</option>':'<option>Image dataset</option><option>Tabular dataset</option><option>Other</option>')+'</select></div>'+
+          '<div><label class="fl">Dataset / domain</label><input type="text" id="f-ds" placeholder="e.g. Dashcam, CCTV" value="'+(state.ds||"")+'"></div>'+
+          '<div class="full"><label class="fl">Short description</label><textarea id="f-desc" placeholder="What it does, how it was trained…">'+(state.desc||"")+'</textarea></div>'+
+          '<div class="full"><label class="fl">Price</label><div class="price-row"><input type="number" id="f-price" placeholder="1900" value="'+(state.price||"")+'"><select id="f-unit"><option>one-time (weights)</option><option>per-GB</option><option>per-scan</option><option>per-month</option></select></div></div>'+
+        '</div>'+
+        '<label class="demo-toggle"><input type="checkbox" id="f-poison"> <span><b>Demo:</b> simulate a poisoned / tampered upload (to see the scan block it)</span></label>'+
+        '<div class="actions"><button class="btn btn-primary" id="submit"'+(state.loaded?'':' disabled')+'>Submit for security scan →</button><a class="btn btn-ghost" href="marketplace.html">Cancel</a></div>'+
+      '</div>';
+
+    [].forEach.call($("#seg").children,function(b){ b.onclick=function(){ state.type=b.dataset.t; renderForm(); }; });
+    $("#drop").onclick=function(){ state.loaded=true; state.file=(state.type==="model"?"my_model.pt":"my_dataset.zip"); renderForm(); };
+    if(state.loaded) $("#submit").onclick=function(){
+      state.title=$("#f-title").value||"Untitled listing";
+      state.ds=$("#f-ds").value||"Any";
+      state.price=$("#f-price").value; state.unit=$("#f-unit").value;
+      state.poison=$("#f-poison").checked;
+      runScan();
+    };
+  }
+
+  // ---------- STAGE 3: security scan ----------
+  var STAGES=["Integrity","Serialization","Backdoor scan","Certify"];
+  function runScan(){
+    setStep(2);
+    stage.innerHTML=
+      '<div class="card"><span class="k-lab">MProbe security scan · '+state.file+'</span>'+
+        '<div class="scan-stepper" id="sstep">'+STAGES.map(function(s){return '<div class="ss" data-s="'+s+'">'+s+'</div>';}).join("")+'</div>'+
+        '<div class="prog"><i id="prog"></i></div><div class="console" id="con"></div></div>';
+    var con=$("#con"), prog=$("#prog");
+    var poisoned=state.poison;
+    var logs=[
+      {t:"$ mprobe certify "+state.file, c:"dim"},
+      {t:"[integrity]     checking file format & hash…", stage:0},
+      {t:"[integrity]     ok — "+(state.type==="model"?"valid PyTorch checkpoint":"12,480 samples parsed"), c:"ok"},
+      {t:"[serialization] scanning for unsafe code / malware…", stage:1},
+      {t:"[serialization] no arbitrary-code payloads found", c:"ok"},
+      {t:"[backdoor]      probing prototypes for poisoning…", stage:2}
+    ];
+    if(poisoned){
+      logs.push({t:"[backdoor]      ⚠ trigger pattern detected in 3 prototypes", c:"bad"});
+      logs.push({t:"[backdoor]      ⚠ targeted misclassification confirmed", c:"bad"});
+      logs.push({t:"[certify]       REJECTED — cannot be listed", c:"bad", stage:3, bad:true});
+    } else {
+      logs.push({t:"[backdoor]      clean — no backdoor behavior found", c:"ok"});
+      logs.push({t:"[certify]       robustness 93% · signing certificate…", stage:3});
+      logs.push({t:"[certify]       ✓ certified — ready to publish", c:"ok"});
+    }
+    var i=0;
+    (function step(){
+      if(i>=logs.length) return showResult(poisoned);
+      var lg=logs[i];
+      if(lg.stage!=null){ [].forEach.call($("#sstep").children,function(s,idx){ s.classList.toggle("done",idx<lg.stage||(lg.bad&&idx===lg.stage)); s.classList.toggle("active",idx===lg.stage&&!lg.bad); if(lg.bad&&idx===lg.stage) s.classList.add("bad"); }); }
+      var d=document.createElement("div"); d.className="ln "+(lg.c||""); d.textContent=lg.t; con.appendChild(d); con.scrollTop=con.scrollHeight;
+      prog.style.width=Math.round((i+1)/logs.length*100)+"%"; i++;
+      setTimeout(step, reduce?0:300);
+    })();
+  }
+
+  // ---------- STAGE 4: result ----------
+  function showResult(poisoned){
+    if(poisoned){
+      setStep(2);
+      stage.innerHTML=
+        '<div class="card"><div class="verdict fail"><div class="vi">✕</div><div><div class="vt">Blocked — poisoning detected</div>'+
+        '<div class="vs">MProbe found a backdoor trigger in "'+state.title+'". It was <b>not</b> published. Retrain on a clean set and re-submit — this is exactly what stops poisoned models reaching buyers.</div></div></div>'+
+        '<div class="actions"><button class="btn btn-primary" id="retry">Fix &amp; try again</button><a class="btn btn-ghost" href="marketplace.html">Back to marketplace</a></div></div>';
+      $("#retry").onclick=function(){ state.poison=false; renderForm(); };
+      return;
+    }
+    setStep(3);
+    stage.innerHTML=
+      '<div class="card"><div class="verdict pass"><div class="vi">✓</div><div><div class="vt">Certified — your listing is live</div>'+
+      '<div class="vs">"'+state.title+'" passed the MProbe security scan and is now on the marketplace with a verified badge.</div></div></div>'+
+      '<div class="score"><span class="k-lab" style="margin:0">Robustness</span><span class="bar"><i style="width:93%"></i></span><b>93%</b></div>'+
+      '<div class="actions"><a class="btn btn-primary" href="marketplace.html" style="flex:1;justify-content:center">View it on the marketplace</a><button class="btn btn-ghost" id="another">List another</button></div></div>';
+    $("#another").onclick=function(){ state={type:"model",loaded:false}; renderForm(); };
+  }
+
+  renderForm();
+})();
+</script>
+</body>
+</html>

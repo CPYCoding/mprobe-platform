@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Run · Red-Car Detector — MProbe</title>
+  <link rel="stylesheet" href="run.css">
+</head>
+<body>
+  <div class="wrap">
+    <a class="back-link" href="../marketplace.html">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg> Back to marketplace
+    </a>
+    <div id="app"></div>
+  </div>
+
+  <!-- ============================================================
+       👋 COLLEAGUE: this <script> is the whole page's content.
+       Safe to edit: title, dataset, arch, intro, and the sample
+       frames below. The shared look is in run.css, the shared
+       behaviour is in run.js — you usually don't need to touch those.
+       ============================================================ -->
+  <script>
+    window.MODEL = {
+      kind:    "detector",
+      title:   "Red-Car Detector (hardened)",
+      slug:    "red-car-detector",
+      dataset: "Dashcam",
+      arch:    "VGG-19 · ProtoPNet",
+      label:   "red car",
+      emoji:   "🚗",
+      intro:   "Spots red vehicles in dashcam / traffic footage. Pick a sample frame below and run the model to see the prediction and the prototypes it matched.",
+      samples: [
+        { name:"dashcam_1042.jpg", hit:true,  conf:97, bg:"linear-gradient(160deg,#4a2b2b,#2a1616)", emoji:"🚗", box:{ t:42, l:28, w:42, h:34 } },
+        { name:"dashcam_0088.jpg", hit:false, conf:0,  bg:"linear-gradient(160deg,#3a3d42,#25282c)", emoji:"" },
+        { name:"junction_231.jpg", hit:true,  conf:83, bg:"linear-gradient(160deg,#402a2a,#231414)", emoji:"🚗", box:{ t:46, l:46, w:36, h:30 } }
+      ]
+    };
+  </script>
+  <script src="run.js"></script>
+</body>
+</html>
