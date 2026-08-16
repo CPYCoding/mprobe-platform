@@ -314,17 +314,26 @@
       '<div class="m"><div class="k">In cleaned set</div><div class="v" style="color:var(--clean)">'+kept.toLocaleString()+'</div></div>'+
       '</div>';
 
-    var detectorCards = detectors.map(function(d){
+    // NOTE: materialized_trigger_detector's flagged_sample_ids is a plain
+    // string array; blind_feature_detector's is an array of
+    // {sample_id,score,level,flagged_by} objects. The two shapes are
+    // intentionally different (auto_remove vs review carry different
+    // authority) — branch on d.action, never guess the shape.
+    var detectorCards = detectors.map(function(d, idx){
       var triggers = d.known_triggers_checked
         ? '<div style="font-size:12px;color:var(--ink-3);margin-top:4px">known triggers checked: '+d.known_triggers_checked.join(", ")+'</div>'
         : "";
-      var actionTag = d.action === "auto_remove"
-        ? '<span style="font-size:11px;font-weight:700;color:var(--threat)">removes from cleaned set</span>'
-        : '<span style="font-size:11px;font-weight:700;color:var(--amber)">flags for review — stays in cleaned set</span>';
+      var isReview = d.action === "review";
+      var actionTag = isReview
+        ? '<span style="font-size:11px;font-weight:700;color:var(--amber)">flags for review — stays in cleaned set</span>'
+        : '<span style="font-size:11px;font-weight:700;color:var(--threat)">removes from cleaned set</span>';
+      var listHost = (isReview && d.flagged_count)
+        ? '<div class="review-list" id="review-list-'+idx+'" style="margin-top:8px;max-height:220px;overflow-y:auto"></div>'
+        : "";
       return '<div class="m" style="text-align:left;margin-top:10px">'+
         '<div class="k">'+d.name+' · '+d.confidence+'</div>'+
         '<div class="v" style="font-size:16px">'+d.flagged_count+' flagged <span style="font-size:12px;font-weight:500">— '+actionTag+'</span></div>'+
-        '<div style="font-size:12.5px;color:var(--ink-2);margin-top:4px">'+d.description+'</div>'+triggers+
+        '<div style="font-size:12.5px;color:var(--ink-2);margin-top:4px">'+d.description+'</div>'+triggers+listHost+
         '</div>';
     }).join("");
 
@@ -337,5 +346,29 @@
       '<div class="res-actions"><button class="btn btn-primary" onclick="location.reload()">Run again</button>'+
       (downloadUrl ? '<a class="btn btn-ghost" href="'+downloadUrl+'" download>Download cleaned dataset (.zip)</a>' : '')+
       '</div>';
+
+    // Sample ids come from the buyer's own uploaded filenames — build
+    // these rows with textContent, never interpolate them into innerHTML.
+    detectors.forEach(function(d, idx){
+      if(d.action !== "review" || !d.flagged_count) return;
+      var host = $("#review-list-" + idx);
+      if(!host) return;
+      (d.flagged_sample_ids || []).forEach(function(entry){
+        var row = document.createElement("div");
+        row.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:12px;padding:5px 0;border-top:1px solid var(--line-2)";
+        var name = document.createElement("span");
+        name.textContent = entry.sample_id;
+        name.style.cssText = "overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)";
+        var badge = document.createElement("span");
+        badge.textContent = entry.level;
+        badge.style.cssText = "flex:none;font-weight:700;text-transform:uppercase;font-size:10px;padding:2px 7px;border-radius:20px;" +
+          (entry.level === "high"
+            ? "background:color-mix(in srgb,var(--threat) 16%,transparent);color:var(--threat)"
+            : "background:color-mix(in srgb,var(--amber) 16%,transparent);color:var(--amber)");
+        row.appendChild(name);
+        row.appendChild(badge);
+        host.appendChild(row);
+      });
+    });
   }
 })();
