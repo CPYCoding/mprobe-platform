@@ -24,11 +24,14 @@
       kind:    "cleaning",
       title:   "Dataset Cleaning & Poison Detection",
       slug:    "dataset-cleaning",
-      dataset: "Any",
-      arch:    "MProbe Service",
-      intro:   "Upload a labeled dataset (or load a sample). MProbe scans for backdoor triggers and label-flips, removes them, and returns a cleaned set with a signed audit report.",
-      // Demo numbers shown after a run:
-      cleanStats: { total:12480, removed:214, triggers:137, flips:77 }
+      dataset: "Image classification (v1)",
+      arch:    "SmallCifarClassifier feature extractor",
+      intro:   "Upload a labeled image dataset (.zip, one folder per class) or load a sample. MProbe runs it through two stages — a known-trigger signature match (auto-removed) then a feature-space anomaly check on whatever the first stage didn't flag (flagged for human review, not auto-removed) — and returns a cleaned set plus a report.",
+      // This page talks to a real backend (server/main.py) instead of
+      // simulating results. Point `backend` at wherever you're running it:
+      //   uvicorn server.main:app --reload --port 8001
+      live:    true,
+      backend: "http://127.0.0.1:8001"
     };
   </script>
   <script src="run.js"></script>

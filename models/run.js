@@ -150,6 +150,7 @@
 
   /* ===================== CLEANING ===================== */
   function renderCleaning(){
+    if(M.live){ return renderLiveCleaning(); }
     host.innerHTML = '<div class="run-wrap"><div class="k-lab">Input dataset</div>'+
       '<div class="dropzone" id="drop" style="margin-top:10px">'+ICON.up+'<div class="big">Drop a labeled dataset (.zip / .npz)</div><div class="sm">or click to load a sample</div></div>'+
       '<button class="btn btn-primary runbtn" id="go" disabled style="margin-top:16px">▶ Run cleaning</button>'+
@@ -196,5 +197,145 @@
         '<div class="m"><div class="k">Triggers</div><div class="v">'+st.triggers+'</div></div>'+
         '<div class="m"><div class="k">Label-flips</div><div class="v">'+st.flips+'</div></div></div>'+
       '<div class="res-actions"><button class="btn btn-primary" onclick="location.reload()">Run again</button></div>';
+  }
+
+  /* ---- live cleaning: talks to the real backend (server/main.py) ---- */
+  var liveFile = null, liveUseSample = false;
+  function renderLiveCleaning(){
+    host.innerHTML =
+      '<div class="run-wrap"><div class="k-lab">Input dataset</div>'+
+      '<div class="dropzone" id="drop" style="margin-top:10px">'+ICON.up+'<div class="big">Drop a labeled dataset (.zip)</div><div class="sm">or click to choose a .zip file</div></div>'+
+      '<input type="file" id="file-input" accept=".zip" style="display:none">'+
+      '<div style="margin-top:10px;font-size:12.5px;color:var(--ink-3)">or <a href="#" id="load-sample" style="color:var(--teal-ink);font-weight:600">load a sample dataset</a> to try it without your own files</div>'+
+      '<button class="btn btn-primary runbtn" id="go" disabled style="margin-top:16px">▶ Run cleaning</button>'+
+      '<div id="result"></div></div>';
+
+    liveFile = null; liveUseSample = false;
+    var dz = $("#drop"), go = $("#go"), input = $("#file-input"), sampleLink = $("#load-sample");
+
+    function selectFile(f){
+      liveUseSample = false; liveFile = f;
+      dz.classList.add("loaded");
+      dz.querySelector(".big").textContent = f.name;
+      dz.querySelector(".sm").textContent = "ready to clean";
+      go.disabled = false;
+    }
+
+    dz.onclick = function(){ input.click(); };
+    dz.ondragover = function(e){ e.preventDefault(); dz.classList.add("loaded"); };
+    dz.ondrop = function(e){
+      e.preventDefault();
+      var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if(f) selectFile(f);
+    };
+    input.onchange = function(){ if(input.files && input.files[0]) selectFile(input.files[0]); };
+    sampleLink.onclick = function(e){
+      e.preventDefault();
+      liveUseSample = true; liveFile = null;
+      dz.classList.add("loaded");
+      dz.querySelector(".big").textContent = "sample_dataset.zip (bundled demo set)";
+      dz.querySelector(".sm").textContent = "ready to run — mix of clean, triggered, and anomalous images";
+      go.disabled = false;
+    };
+    go.onclick = runLiveCleaning;
+  }
+
+  function logLine(con, text, cls){
+    var d = document.createElement("div");
+    d.className = "ln " + (cls||"");
+    d.textContent = text;
+    con.appendChild(d);
+    con.scrollTop = con.scrollHeight;
+    return d;
+  }
+
+  function runLiveCleaning(){
+    var res = $("#result");
+    res.innerHTML = '<div class="prog" id="live-prog"><i></i></div><div class="console" id="live-con"></div>';
+    var con = $("#live-con"), prog = $("#live-prog").firstElementChild;
+    var base = (M.backend || "").replace(/\/$/, "");
+
+    logLine(con, "$ mprobe clean --dataset " + (liveUseSample ? "sample_dataset.zip" : liveFile.name), "dim");
+    logLine(con, "[upload] sending dataset to detection service…");
+    prog.style.width = "20%";
+
+    var req;
+    if(liveUseSample){
+      req = fetch(base + "/v1/models/dataset-cleaning/run-sample", { method: "POST" });
+    } else {
+      var formData = new FormData();
+      formData.append("dataset", liveFile);
+      req = fetch(base + "/v1/models/dataset-cleaning/run", { method: "POST", body: formData });
+    }
+
+    logLine(con, "[scan] stage 1 — materialized trigger detector (known signatures)…");
+    prog.style.width = "50%";
+
+    req.then(function(response){
+        if(!response.ok){
+          return response.json().catch(function(){ return {}; }).then(function(body){
+            throw new Error(body.detail || ("Request failed (HTTP " + response.status + ")"));
+          });
+        }
+        return response.json();
+      })
+      .then(function(data){
+        logLine(con, "[scan] stage 2 — blind feature detector (unknown / novel patterns)…");
+        prog.style.width = "85%";
+        setTimeout(function(){
+          logLine(con, "[done] cleaned set + report ready", "ok");
+          prog.style.width = "100%";
+          setTimeout(function(){ liveCleanDone(data, base); }, reduce?0:250);
+        }, reduce?0:350);
+      })
+      .catch(function(err){
+        logLine(con, "[error] " + err.message, "bad");
+        res.insertAdjacentHTML("beforeend",
+          '<div class="verdict flag" style="margin-top:12px"><div class="vi">!</div><div>'+
+          '<div class="vt">Couldn’t reach the detection service</div>'+
+          '<div class="vs">Make sure the backend is running (uvicorn server.main:app --reload) and reachable — see the log above for the exact error.</div>'+
+          '</div></div>'+
+          '<div class="res-actions"><button class="btn btn-ghost" onclick="location.reload()">Try again</button></div>');
+      });
+  }
+
+  function liveCleanDone(data, base){
+    var report = data.report || {};
+    var detectors = report.detectors || [];
+    var total = report.total_samples || 0;
+    var autoRemoved = report.auto_removed_samples || 0;
+    var pendingReview = report.pending_review_samples || 0;
+    var kept = report.kept_samples != null ? report.kept_samples : (total - autoRemoved);
+
+    var overall = '<div class="res-metrics" style="grid-template-columns:repeat(4,1fr)">'+
+      '<div class="m"><div class="k">Samples in</div><div class="v">'+total.toLocaleString()+'</div></div>'+
+      '<div class="m"><div class="k">Auto-removed</div><div class="v" style="color:var(--threat)">'+autoRemoved+'</div></div>'+
+      '<div class="m"><div class="k">Pending review</div><div class="v" style="color:var(--amber)">'+pendingReview+'</div></div>'+
+      '<div class="m"><div class="k">In cleaned set</div><div class="v" style="color:var(--clean)">'+kept.toLocaleString()+'</div></div>'+
+      '</div>';
+
+    var detectorCards = detectors.map(function(d){
+      var triggers = d.known_triggers_checked
+        ? '<div style="font-size:12px;color:var(--ink-3);margin-top:4px">known triggers checked: '+d.known_triggers_checked.join(", ")+'</div>'
+        : "";
+      var actionTag = d.action === "auto_remove"
+        ? '<span style="font-size:11px;font-weight:700;color:var(--threat)">removes from cleaned set</span>'
+        : '<span style="font-size:11px;font-weight:700;color:var(--amber)">flags for review — stays in cleaned set</span>';
+      return '<div class="m" style="text-align:left;margin-top:10px">'+
+        '<div class="k">'+d.name+' · '+d.confidence+'</div>'+
+        '<div class="v" style="font-size:16px">'+d.flagged_count+' flagged <span style="font-size:12px;font-weight:500">— '+actionTag+'</span></div>'+
+        '<div style="font-size:12.5px;color:var(--ink-2);margin-top:4px">'+d.description+'</div>'+triggers+
+        '</div>';
+    }).join("");
+
+    var downloadUrl = data.download_url ? (base + data.download_url) : null;
+
+    $("#result").innerHTML =
+      '<div class="verdict flag"><div class="vi">🧹</div><div><div class="vt">'+autoRemoved+' removed automatically'+(pendingReview ? ', '+pendingReview+' flagged for review' : '')+'</div>'+
+      '<div class="vs">Only known-trigger matches (stage 1) are auto-removed. Stage 2 is a statistical signal, not a known-signature match — its hits stay in the downloadable set and are reported as pending review instead of being deleted automatically.</div></div></div>'+
+      overall + detectorCards +
+      '<div class="res-actions"><button class="btn btn-primary" onclick="location.reload()">Run again</button>'+
+      (downloadUrl ? '<a class="btn btn-ghost" href="'+downloadUrl+'" download>Download cleaned dataset (.zip)</a>' : '')+
+      '</div>';
   }
 })();

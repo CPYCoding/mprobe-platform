@@ -1,0 +1,1002 @@
+[
+  {
+    "id": "airplane/airplane_000.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_001.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_002.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_003.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_004.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_005.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_006.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_007.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_008.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_009.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_010.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_011.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_012.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_013.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_014.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_015.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_016.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_017.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_018.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_019.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_020.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_021.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_022.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_023.png",
+    "kind": "clean"
+  },
+  {
+    "id": "airplane/airplane_024.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_000.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "automobile/automobile_001.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_002.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_003.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_004.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_005.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_006.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_007.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_008.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_009.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_010.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "automobile/automobile_011.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_012.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_013.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_014.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_015.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "automobile/automobile_016.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_017.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_018.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_019.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_020.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_021.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_022.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_023.png",
+    "kind": "clean"
+  },
+  {
+    "id": "automobile/automobile_024.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_000.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_001.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_002.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "bird/bird_003.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_004.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_005.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_006.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "bird/bird_007.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_008.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_009.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_010.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_011.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_012.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_013.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_014.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_015.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_016.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_017.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_018.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_019.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_020.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_021.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_022.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_023.png",
+    "kind": "clean"
+  },
+  {
+    "id": "bird/bird_024.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_000.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "cat/cat_001.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_002.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_003.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_004.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_005.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_006.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_007.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_008.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_009.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_010.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_011.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_012.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_013.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_014.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_015.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_016.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_017.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_018.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_019.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_020.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_021.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_022.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "cat/cat_023.png",
+    "kind": "clean"
+  },
+  {
+    "id": "cat/cat_024.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_000.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_001.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_002.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_003.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_004.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "deer/deer_005.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_006.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_007.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_008.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_009.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "deer/deer_010.png",
+    "kind": "anomaly"
+  },
+  {
+    "id": "deer/deer_011.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_012.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "deer/deer_013.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_014.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_015.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_016.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_017.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "deer/deer_018.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_019.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_020.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_021.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_022.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_023.png",
+    "kind": "clean"
+  },
+  {
+    "id": "deer/deer_024.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "dog/dog_000.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "dog/dog_001.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_002.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_003.png",
+    "kind": "anomaly"
+  },
+  {
+    "id": "dog/dog_004.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_005.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_006.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_007.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "dog/dog_008.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_009.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "dog/dog_010.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_011.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_012.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_013.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_014.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_015.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_016.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "dog/dog_017.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "dog/dog_018.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_019.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_020.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_021.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_022.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_023.png",
+    "kind": "clean"
+  },
+  {
+    "id": "dog/dog_024.png",
+    "kind": "anomaly"
+  },
+  {
+    "id": "frog/frog_000.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_001.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_002.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "frog/frog_003.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_004.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_005.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_006.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_007.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_008.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_009.png",
+    "kind": "anomaly"
+  },
+  {
+    "id": "frog/frog_010.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_011.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_012.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_013.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_014.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_015.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_016.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_017.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_018.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_019.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "frog/frog_020.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_021.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_022.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "frog/frog_023.png",
+    "kind": "clean"
+  },
+  {
+    "id": "frog/frog_024.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_000.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_001.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_002.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_003.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_004.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_005.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_006.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_007.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_008.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_009.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_010.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_011.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "horse/horse_012.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_013.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_014.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_015.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_016.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_017.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_018.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_019.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_020.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_021.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_022.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_023.png",
+    "kind": "clean"
+  },
+  {
+    "id": "horse/horse_024.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "ship/ship_000.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_001.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_002.png",
+    "kind": "anomaly"
+  },
+  {
+    "id": "ship/ship_003.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_004.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_005.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_006.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_007.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_008.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_009.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_010.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_011.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_012.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_013.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_014.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_015.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_016.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_017.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "ship/ship_018.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_019.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_020.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_021.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_022.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_023.png",
+    "kind": "clean"
+  },
+  {
+    "id": "ship/ship_024.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_000.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "truck/truck_001.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_002.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_003.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "truck/truck_004.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "truck/truck_005.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_006.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_007.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_008.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_009.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "truck/truck_010.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_011.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_012.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "truck/truck_013.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_014.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_015.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_016.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_017.png",
+    "kind": "anomaly"
+  },
+  {
+    "id": "truck/truck_018.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_019.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_020.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_021.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_022.png",
+    "kind": "clean"
+  },
+  {
+    "id": "truck/truck_023.png",
+    "kind": "triggered"
+  },
+  {
+    "id": "truck/truck_024.png",
+    "kind": "triggered"
+  }
+]

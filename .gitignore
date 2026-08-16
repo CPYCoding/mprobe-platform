@@ -4,3 +4,10 @@ Thumbs.db
 node_modules/
 .vscode/
 .idea/
+
+# server: CIFAR-10 cache (341MB, re-downloaded by prepare_assets.py) and
+# per-run job outputs (ephemeral, regenerated on every /run call)
+server/.data/
+server/outputs/
+__pycache__/
+*.pyc
