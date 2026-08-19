@@ -52,7 +52,7 @@ def inject_noise_anomaly(image, rng):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--per-class", type=int, default=100)
+    parser.add_argument("--per-class", type=int, default=1000)
     parser.add_argument("--trigger-ratio", type=float, default=0.12)
     parser.add_argument("--anomaly-ratio", type=float, default=0.06)
     parser.add_argument("--seed", type=int, default=0)
