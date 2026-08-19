@@ -343,6 +343,7 @@
       '<div class="verdict flag"><div class="vi">🧹</div><div><div class="vt">'+autoRemoved+' removed automatically'+(pendingReview ? ', '+pendingReview+' flagged for review' : '')+'</div>'+
       '<div class="vs">Only known-trigger matches (stage 1) are auto-removed. Stage 2 is a statistical signal, not a known-signature match — its hits stay in the downloadable set and are reported as pending review instead of being deleted automatically.</div></div></div>'+
       overall + detectorCards +
+      '<div id="sample-preview-host"></div>'+
       '<div class="res-actions"><button class="btn btn-primary" onclick="location.reload()">Run again</button>'+
       (downloadUrl ? '<a class="btn btn-ghost" href="'+downloadUrl+'" download>Download cleaned dataset (.zip)</a>' : '')+
       '</div>';
@@ -370,5 +371,57 @@
         host.appendChild(row);
       });
     });
+
+    renderSamplePreview(report.sample_preview);
+  }
+
+  // "Normal vs Triggered Sample" — a visual, not just a number, of what
+  // stage 1 actually caught. Images come from the backend as data: URIs
+  // it re-encoded itself (never the buyer's raw file), so they're safe to
+  // use directly as <img src>; filenames are the buyer's own, so those
+  // still go through textContent only.
+  function renderSamplePreview(preview){
+    var host = $("#sample-preview-host");
+    if(!host || !preview || !preview.triggered) return;
+
+    var wrap = document.createElement("div");
+    wrap.style.marginTop = "20px";
+
+    var label = document.createElement("div");
+    label.className = "k-lab";
+    label.textContent = "Normal vs Triggered Sample";
+    wrap.appendChild(label);
+
+    var grid = document.createElement("div");
+    grid.style.cssText = "display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;max-width:420px";
+
+    function tile(entry, tag, tagColor){
+      var cell = document.createElement("div");
+      cell.style.textAlign = "center";
+      if(entry){
+        var img = document.createElement("img");
+        img.src = entry.data_uri;
+        img.alt = tag;
+        img.style.cssText = "width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1.5px solid "+tagColor;
+        var caption = document.createElement("div");
+        caption.style.cssText = "font-family:var(--mono);font-size:11px;margin-top:6px;color:"+tagColor;
+        caption.textContent = tag;
+        var filename = document.createElement("div");
+        filename.style.cssText = "font-family:var(--mono);font-size:10px;margin-top:2px;color:var(--ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
+        filename.textContent = entry.sample_id;
+        cell.appendChild(img);
+        cell.appendChild(caption);
+        cell.appendChild(filename);
+      } else {
+        cell.style.cssText += ";display:flex;align-items:center;justify-content:center;aspect-ratio:1;border-radius:10px;border:1.5px dashed var(--line);color:var(--ink-3);font-size:12px";
+        cell.textContent = "no clean sample to show";
+      }
+      return cell;
+    }
+
+    grid.appendChild(tile(preview.normal, "Normal", "var(--clean)"));
+    grid.appendChild(tile(preview.triggered, "Triggered — known signature match", "var(--threat)"));
+    wrap.appendChild(grid);
+    host.appendChild(wrap);
   }
 })();

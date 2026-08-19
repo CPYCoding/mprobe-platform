@@ -18,6 +18,8 @@ bearing, not cosmetic:
     split exists to prevent (verified against the bundled sample dataset:
     stage 2's only hit there was a false positive on a clean image).
 """
+import base64
+import io
 import json
 import os
 import uuid
@@ -60,6 +62,40 @@ def _ensure_assets_loaded():
     _state["threshold"] = manifest["threshold"]
 
 
+PREVIEW_MAX_SIZE = 256
+
+
+def _encode_preview(sample):
+    # Always re-encoded as a small PNG thumbnail, never the original file
+    # bytes — keeps the report payload small regardless of the buyer's
+    # source image size/format, and gives the frontend one consistent
+    # format to render.
+    thumb = sample["image"].copy()
+    thumb.thumbnail((PREVIEW_MAX_SIZE, PREVIEW_MAX_SIZE))
+    buf = io.BytesIO()
+    thumb.save(buf, format="PNG")
+    data_uri = "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
+    return {"sample_id": sample["id"], "data_uri": data_uri}
+
+
+def _build_sample_preview(samples, materialized_flagged, blind_flagged_ids):
+    by_id = {s["id"]: s for s in samples}
+    preview = {}
+
+    triggered_id = next(iter(materialized_flagged), None)
+    if triggered_id:
+        preview["triggered"] = _encode_preview(by_id[triggered_id])
+
+    normal_id = next(
+        (s["id"] for s in samples if s["id"] not in materialized_flagged and s["id"] not in blind_flagged_ids),
+        None,
+    )
+    if normal_id:
+        preview["normal"] = _encode_preview(by_id[normal_id])
+
+    return preview
+
+
 def run_pipeline(zip_bytes):
     _ensure_assets_loaded()
 
@@ -86,5 +122,6 @@ def run_pipeline(zip_bytes):
         "pending_review_samples": len(blind_flagged),
         "kept_samples": total - len(materialized_flagged),
         "detectors": [materialized_report, blind_report],
+        "sample_preview": _build_sample_preview(samples, materialized_flagged, blind_flagged),
     }
     return report, job_id, output_path
