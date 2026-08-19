@@ -3,10 +3,12 @@ Builds server/samples/sample_dataset.zip — the dataset the "or click to
 load a sample" button in the Run page sends to the backend, so the demo
 works without the visitor needing to prepare their own .zip.
 
-Mix: mostly clean CIFAR-10 test images, some with the registered red-square
-trigger injected (stage 1 should catch these), and a few with unrelated
-heavy pixel corruption standing in for a "novel"/unknown poisoning pattern
-(stage 2 — blind_feature — should catch these; they don't match the known
+Mix: mostly clean CIFAR-10 test images, some with a registered known
+trigger injected — split between the two entries in TRIGGER_REGISTRY
+(red-square and the backdoor-grid pattern), so the demo actually exercises
+both signatures, not just the first one — and a few with unrelated heavy
+pixel corruption standing in for a "novel"/unknown poisoning pattern
+(stage 2 — blind_feature — should catch these; they don't match any known
 trigger signature).
 
 Usage:
@@ -29,7 +31,11 @@ if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
 from server.model import CIFAR10_CLASSES  # noqa: E402
-from server.detectors.materialized_trigger import TRIGGER_REGISTRY, _patch_size  # noqa: E402
+from server.detectors.materialized_trigger import (  # noqa: E402
+    TRIGGER_REGISTRY,
+    _grid_cell_bounds,
+    _patch_size,
+)
 
 SAMPLES_DIR = os.path.join(ROOT_DIR, "server", "samples")
 DATA_DIR = os.path.join(ROOT_DIR, "server", ".data")
@@ -40,6 +46,18 @@ def inject_red_square(image, trigger):
     height, width = arr.shape[0], arr.shape[1]
     patch_w, patch_h = _patch_size(width, height, trigger)
     arr[height - patch_h:height, width - patch_w:width] = trigger["color"]
+    return Image.fromarray(arr)
+
+
+def inject_backdoor_grid(image, trigger):
+    arr = np.array(image).copy()
+    width, height = image.size
+    for row, cells in enumerate(trigger["grid"]):
+        for col, expected in enumerate(cells):
+            if expected is None:
+                continue
+            r0, r1, c0, c1 = _grid_cell_bounds(width, height, trigger, row, col)
+            arr[r0:r1, c0:c1] = expected
     return Image.fromarray(arr)
 
 
@@ -73,7 +91,8 @@ def main():
         if all(len(v) >= args.per_class for v in by_class.values()):
             break
 
-    trigger = TRIGGER_REGISTRY[0]
+    red_square = next(t for t in TRIGGER_REGISTRY if t["id"] == "red_square_v1")
+    backdoor_grid = next(t for t in TRIGGER_REGISTRY if t["id"] == "backdoor_grid_v1")
     zip_path = os.path.join(SAMPLES_DIR, "sample_dataset.zip")
     manifest_rows = []
 
@@ -82,10 +101,18 @@ def main():
             class_name = CIFAR10_CLASSES[label]
             for i, image in enumerate(images):
                 kind = "clean"
+                trigger_id = None
                 roll = py_rng.random()
                 if roll < args.trigger_ratio:
-                    image = inject_red_square(image, trigger)
                     kind = "triggered"
+                    # Split roughly evenly between the two known triggers,
+                    # so the demo exercises both signatures, not just one.
+                    if py_rng.random() < 0.5:
+                        image = inject_red_square(image, red_square)
+                        trigger_id = red_square["id"]
+                    else:
+                        image = inject_backdoor_grid(image, backdoor_grid)
+                        trigger_id = backdoor_grid["id"]
                 elif roll < args.trigger_ratio + args.anomaly_ratio:
                     image = inject_noise_anomaly(image, np_rng)
                     kind = "anomaly"
@@ -94,15 +121,21 @@ def main():
                 buf = io.BytesIO()
                 image.save(buf, format="PNG")
                 zf.writestr(name, buf.getvalue())
-                manifest_rows.append({"id": name, "kind": kind})
+                row = {"id": name, "kind": kind}
+                if trigger_id:
+                    row["trigger_id"] = trigger_id
+                manifest_rows.append(row)
 
     with open(os.path.join(SAMPLES_DIR, "sample_dataset_manifest.json"), "w") as f:
         json.dump(manifest_rows, f, indent=2)
 
     counts = {}
+    trigger_counts = {}
     for row in manifest_rows:
         counts[row["kind"]] = counts.get(row["kind"], 0) + 1
-    print(f"Wrote {zip_path} ({len(manifest_rows)} images): {counts}")
+        if row.get("trigger_id"):
+            trigger_counts[row["trigger_id"]] = trigger_counts.get(row["trigger_id"], 0) + 1
+    print(f"Wrote {zip_path} ({len(manifest_rows)} images): {counts}, by trigger: {trigger_counts}")
 
 
 if __name__ == "__main__":
