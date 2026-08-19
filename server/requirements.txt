@@ -5,3 +5,6 @@ torch
 torchvision
 numpy
 pillow
+
+# dev / test only
+pytest
